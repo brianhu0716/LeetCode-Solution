@@ -1,63 +1,30 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 30 08:54:01 2021
+Created on Tue Jun 29 21:43:09 2021
 
-@author: Brian
+@author: Brian Hu
 """
-
+'''
+(a) first, we need to guarantee arr length == n and every entry is start by minima positive integer 1, and since we can tolerate abs(arr[i] - arr[i + 1]) <= 1, we can further assume the target = arr[index] start by 2. Based on previous concept, the remaining maxSum we can actually be used to optimized is maxSum -= n - 1
+(b) in while loop, j and i represent the max index and min index which define the range we need to optimize in current iteration. Every entry in the range must add by 1, so maxSum = maxSum - (j - i + 1) and target can be added by 1.
+(c) we repeat (b) until maSum is no longer enough big to optimize every entry in rangr(i, j + 1), or j and i have already reached the bounds of array size, in this case, we can reduction the remaining process to count target + maxSum // (j - i + 1) as the answer because the optimization range is fixed in the remaining process
+'''
 class Solution:
     def maxValue(self, n: int, index: int, maxSum: int) -> int:
-        target = max(2,maxSum // n) # 強迫除target外每一個數字至少是1，target至少為2
-        #print(target)
-        c = 0
-        for i in range(index,-1,-1):
-            maxSum -= (num := max(target - c,1))
-            if num == 1 and 'lp' not in locals():
-                lp = i
-            c += 1 
-        (lp := 0) if 'lp' not in locals() else lp
-        
-        c = 1
-        for i in range(index + 1,n,1):
-            maxSum -= (num := max(target - c,1))
-            if num == 1 and 'rp' not in locals():
-                rp = i
-            c += 1 
-        (rp := n - 1) if 'rp' not in locals() else rp
-
-        
-        #print(maxSum,lp,rp)
-        
-        if maxSum < 0 :
-            return target - 1
-        while maxSum >= 0:
-            maxSum -= (rp - lp + 1)
-            if lp == 0 and rp == n - 1:
-                return maxSum // n
-            elif lp == 0 or rp == n - 1:
-                (lp := lp - 1) if (rp == n - 1) else (rp := rp + 1)
-            else:
-                lp -= 1
-                rp += 1
-        
-            if maxSum == 0:
-                return target + 1
-            elif maxSum < 0:
-                return target
-            else:
-                target += 1
-            #print(maxSum,lp,rp)
-                
-test = Solution()
-n = [4,4,3,4]
-index = [0,2,0,0]
-maxSum = [4,6,815094800,6]
-for i in range(len(n)):
-    if i == 2:
-        print(test.maxValue(n[i], index[i], maxSum[i]))
-        
-    '''
-1
-2
-271698267
-2'''
+        if maxSum == n: return 1
+        i, j = max(0, index - 1), min(index + 1, n - 1)
+        target = 2
+        maxSum -= (n + 1)
+        while maxSum >= (j - i + 1):
+            maxSum -= j - i + 1
+            target += 1
+            if i > 0 and j < n - 1:
+                i -= 1
+                j += 1
+            elif i == 0 and j == n - 1:
+                return target + maxSum // (j - i + 1)
+            elif i == 0 and j < n - 1:
+                j += 1
+            elif i > 0 and j == n - 1:
+                i -= 1
+        return target
