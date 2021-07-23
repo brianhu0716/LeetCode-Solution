@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jul 13 22:22:07 2021
+Created on Sat Jul 17 08:50:42 2021
 
 @author: Brian Hu
 """
-
+from collections import deque
 class Solution:
     def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
         dq = deque([(entrance[0], entrance[1])])
