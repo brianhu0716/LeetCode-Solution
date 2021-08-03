@@ -1,0 +1,19 @@
+class Solution:
+    def closestCost(self, baseCosts: List[int], toppingCosts: List[int], target: int) -> int:
+        def dfs(idx, total):
+            if self.min_diff > (diff := abs(total - target)): # can make combination closer to target
+                self.ans = total
+                self.min_diff = diff
+            elif self.min_diff == diff and total < self.ans: # update total cost
+                self.ans = total
+            if idx == len(toppingCosts) or total > target: # out of topping choice or total cost far away from target
+                return
+
+            for i in range(3): # each topping can add once, twice or non
+                dfs(idx + 1, total + toppingCosts[idx] * i)
+
+        self.ans = float('inf')
+        self.min_diff = float('inf')
+        for base in baseCosts:
+            dfs(0, base)
+        return self.ans # return the total cost which is closest to target

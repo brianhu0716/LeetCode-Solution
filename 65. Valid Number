@@ -1,0 +1,23 @@
+class Solution:
+    def isNumber(self, s: str) -> bool:
+        ndot, nexp = 0, 0 # count # of dot and exponential
+        digit_flag = False # check if any digit exists in the position it must be
+        for idx, char in enumerate(s):
+            if char in ["+", "-"]: # "+" or "-" can only appears at index 0 or after exponential symbol
+                if idx == 0 or s[idx - 1] in ["e", "E"]:
+                    continue
+                return False
+            elif char == ".":
+                if ndot == 1 or nexp == 1: # decimal after exponential or more than one dot in expression is prohibited
+                    return False
+                ndot += 1
+            elif char in ["e", "E"]:
+                if nexp == 1 or not digit_flag: # exponential symbol can only appears exactly one time in expression, and there must be at least one digit before it
+                    return False
+                nexp += 1
+                digit_flag = False # if exponential symbol appears, it must be followed byan integer(we need to check if a valid digit after it)
+            elif char.isalpha(): # letters except "e" or "E" are invalid symbol in expression
+                return False
+            elif char.isnumeric(): # digit appears in expression
+                digit_flag = True
+        return True if digit_flag else False # if digit not appears in where it should be, return False else True
