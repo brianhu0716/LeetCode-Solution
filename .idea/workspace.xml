@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8bec1e50-ead8-48b2-a63d-041d70c5a59d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/539. Minimum Time Difference" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/552. Student Attendance Record II" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/934. Shortest Bridge" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/165. Compare Version Numbers" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/935. Knight Dialer" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

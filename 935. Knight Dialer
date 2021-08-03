@@ -1,0 +1,22 @@
+class Solution:
+    def knightDialer(self, n: int) -> int:
+        mod = 10 ** 9 + 7
+        def f(i, j, k):
+            if (i, j, k) in self.dp: # i is current x coordinate, j is current y coordinate, k is current steps
+                return self.dp[(i, j, k)]
+            if k == n:
+                return 1
+            ans = 0
+            for x, y in ((i - 2, j + 1), (i - 2, j - 1), (i + 2, j + 1), (i + 2, j - 1),
+                         (i + 1, j - 2), (i - 1, j - 2), (i + 1, j + 2), (i - 1, j + 2)): # next 8-position from current position of knight
+                if (0 <= x < 4) and (0 <= y < 3) and (x, y) != (3, 0) and (x, y) != (3, 2): # out of bound or locate on "*" or "#"
+                    ans += f(x, y, k + 1)
+            self.dp[(i, j, k)] = ans
+            return ans
+        self.dp = dict()
+        ans = 0
+        for i in range(4):
+            for j in range(3):
+                if (i, j) != (3, 0) and (i, j) != (3, 2): # pass "*" and "#"
+                    ans += f(i, j, 1)
+        return ans % mod

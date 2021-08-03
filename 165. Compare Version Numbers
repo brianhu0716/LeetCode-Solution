@@ -1,0 +1,33 @@
+class Solution:
+    def compareVersion(self, version1: str, version2: str) -> int:
+        n1, n2 = len(version1), len(version2)
+
+        def to_int(start, end, num): # check sub-version number
+            for i in range(start, end):
+                if num[i] == '.':
+                    return i + 1, int(num[start: i])
+            return end, int(num[start:])
+
+        i, j = 0, 0
+        while i < n1 and j < n2:
+            i, v1 = to_int(i, n1, version1) # i is next start index of version1 and v1 is the current sub-version number of version1
+            j, v2 = to_int(j, n2, version2) # j is next start index of version2 and v2 is the current sub-version number of version2
+            if v1 < v2:
+                return -1
+            if v1 > v2:
+                return 1
+
+        if i == n1 and j == n2: # both version1 and version2 has been checked completely
+            return 0
+        if i == n1: # check sub-version number of version2
+            while j < n2:
+                j, v2 = to_int(j, n2, version2)
+                if v2 > 0:
+                    return -1
+            return 0
+        if j == n2: # check sub-version number of version1
+            while i < n1:
+                i, v1 = to_int(i, n1, version1)
+                if v1 > 0:
+                    return 1
+            return 0
