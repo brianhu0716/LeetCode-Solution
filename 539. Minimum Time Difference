@@ -1,0 +1,23 @@
+class Solution:
+    def findMinDifference(self, timePoints: List[str]) -> int:
+        def timeDiff(t1, t2):
+            ans = float('inf')
+            l1, l2 = [int(t1[: 2]), int(t1[3:])], [int(t2[: 2]), int(t2[3:])]
+            if l2[0] > 12 and l1[0] < 12:
+                ans = min(ans, (23 - l2[0] + l1[0] - 0) * 60 + (60 - l2[1] + l1[1] - 0))
+            if l2[1] < l1[1]:
+                l2[0] -= 1
+                l2[1] += 60
+            return min(ans, (l2[0] - l1[0]) * 60 + (l2[1] - l1[1]))
+
+        timePoints.sort()
+        ans = float('inf')
+        if len(timePoints) != len(set(timePoints)):
+            return 0
+        if len(timePoints) == 2:
+            return timeDiff(timePoints[0], timePoints[-1])
+        for i in range(len(timePoints) - 1):
+            ans = min(ans, timeDiff(timePoints[i], timePoints[i + 1]))
+        if timePoints[0] == "00:00":
+            return min(ans, timeDiff(timePoints[-1], "24:00"))
+        return min(ans, timeDiff(timePoints[0], timePoints[-1]))

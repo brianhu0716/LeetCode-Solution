@@ -1,0 +1,20 @@
+if grid[-1][-1] == 1 or grid[0][0] == 1: # can't make the path happen
+    return -1
+delta = ((1, 1), (0, 1), (1, 0), (-1, 1), (1, -1), (0, -1), (-1, 0), (-1, -1)) # displace quantity
+node, n = 0, len(grid)
+dq = deque([(0, 0)]) # orign is (0,0)
+grid[0][0] = 1
+while dq:
+    node += 1
+    for _ in range(len(dq)):
+        # print(dq)
+        x, y = dq.popleft()
+        if x == n - 1 and y == n - 1: # reach destination
+            return node
+        for nx, ny in list(map(lambda d: (x + d[0], y + d[1]), delta)): # 8-direction adjacent coordinate
+            if not (0 <= nx < n) or not (0 <= ny < n) or grid[nx][ny] == 1: # out of bound or path == 1
+                continue
+            dq.append((nx, ny))
+            grid[nx][ny] = 1
+
+return -1
