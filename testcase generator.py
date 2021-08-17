@@ -20,15 +20,46 @@ Created on Mon Jul 19 14:59:45 2021
 #         a[i][j] = string.ascii_lowercase[idx]
 # print(json.dumps(a))
 
+"""
 import random
-n = 10
-arr = list()
-for cnt in range(2):
-    res = list()
-    for i in range(10):
-        res.append(random.randint(1, 10 ** 4))
-    arr.append(res)
-print(arr[0])
-print(arr[1])
+n = 10 ** 4
+vrange = [-10 ** 4, 10 ** 4]
+nums = list()
+queries = list()
+for _ in range(n):
+    nums.append(random.randint(vrange[0], vrange[1]))
+    queries.append([random.randint(vrange[0], vrange[1]), random.randint(0, 9999)])
+print(nums)
+print(queries)
+"""
 
 
+import random
+arr = []
+for i in range(10 ** 5):
+    arr.append(random.randint(1, 10 ** 4))
+print(arr)
+print(sum(arr))
+
+
+"""
+import random
+for _ in range(10):
+    arr = random.sample([i for i in range(0, 10)], k=10)
+    print(arr)
+"""
+"""
+import torch
+for i in list(torch.randn(10)):
+    print(i)
+"""
+
+"""
+import random
+n = 2 * 10 ** 4
+nums = [None for _ in range(n)]
+starts = random.sample([i for i in range(-10 ** 6, 10 ** 6 + 1)], k=n)
+for idx, start in enumerate(starts):
+    nums[idx] = [start, random.randint(start, 10 ** 6)]
+print(nums)
+"""

@@ -1,30 +1,33 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May 25 22:48:47 2021
-
-@author: brian.hu
-"""
-
 class Solution:
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
-        self.d = collections.defaultdict(list)
+        d = defaultdict(list)
+        for fromi, toi in tickets: # key: from where, value: to where
+            d[fromi].append(toi)
+        d = {key: sorted(d[key]) for key in d} # for each key, we need to sort the answer will meet the smallest lexical order requirements
+        nodes = len(tickets) + 1 # length of the answer
 
-        for start,end in tickets :
-            self.d[start].append(end)
-            
-        def dfs(n,used,start,path) :
-            if len(used) == n :
-                self.ans.append(path[:] + [start])
-                return 
-            
-            path.append(start)
-            for end in self.d[start] :
-                if [start,end] not in used :
-                    dfs(n,used + [[start,end]],end,path)
-            path.pop()
+        def dfs(start, path, used): # "start" is the name of start stop, path is the stops we've been visited
+            if len(path) == nodes: # visited all stops
+                self.ans = path[:]
+                return
+            if start not in d: # no further stop to move
+                return
 
+            for i in range(len(d[start])):
+                if i in used[start] or self.ans: # if the index in d[start] has been visited, we pass that situation or we've already find the answer
+                    continue
+                next_stop = d[start][i] # name of next_stop
+                """
+                used[start].add(i)
+                path.append(next_stop)
+                dfs(next_stop, path, used)
+                used[start].remove(i)
+                path.pop()
+                """
+                used[start].add(i) # add of the index of next_stop
+                dfs(next_stop, path + [next_stop], used)
+                used[start].remove(i)
 
-        self.ans = list()
-        dfs(len(tickets),list(),"JFK",list())
-        print(self.ans)
-        return sorted(self.ans)[0]
+        self.ans = []
+        dfs("JFK", ["JFK"], {key: set() for key in d}) # start from "JFK",
+        return self.ans

@@ -9,7 +9,7 @@ class Solution:
     def numOfSubarrays(self, arr: List[int]) -> int:
         dp, ans = [0], 0
         for num in arr:
-            dp.append(dp[-1] + num)
+            dp.append(dp[-1] + num) # dp[i] is the prefix sum from index 0 to i
         accu_even, accu_odd = 1, 0
         for i in range(1, len(dp)):
             if dp[i] % 2 == 0: # if prefix sum is even, we can only get odd result by subtract it with odd number 
